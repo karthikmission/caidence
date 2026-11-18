@@ -34,21 +34,32 @@ writing code rather than trusting that the parent session already did.
 
 ## Orient Yourself On Start
 
+The workspace root is the directory that has `caidence/`, `driver/`, and
+`worktrees/` as its three direct children. `caidence/` and `worktrees/<slug>/`
+sit at **different depths** under it (one level down vs. two), so a fixed
+relative path like `../driver` is only correct from one of them — don't
+hardcode it. Find the workspace root yourself: walk up from your current
+directory until you see all three as siblings, then reference the others by
+absolute path from there.
+
 Before touching any file, work out and state back:
 
-1. Your current directory — if it's `caidence/` on `main`, you are in the
-   **REFERENCE** checkout: read-only, never modify it directly.
-2. If you're in `../worktrees/<NNN-slug>`, that is the **CHANGE** worktree
-   for feature `<NNN-slug>` — this is where implementation work belongs.
-3. `../driver/` (sibling of `caidence/`, one level up from REFERENCE) is
-   **THINK** — prompts, research, scratch analysis, temporary notes, meeting
-   notes, anything that isn't a durable project artifact. It's its own
-   local-only git repo with no remote; nothing in it is ever part of a
-   feature's commit. If you generate something for your own reasoning rather
-   than for shipping, it goes there, not into REFERENCE or CHANGE.
+1. Your current directory — if it's `<workspace-root>/caidence` on `main`,
+   you are in the **REFERENCE** checkout: read-only, never modify it
+   directly.
+2. If you're in `<workspace-root>/worktrees/<NNN-slug>`, that is the
+   **CHANGE** worktree for feature `<NNN-slug>` — this is where
+   implementation work belongs.
+3. `<workspace-root>/driver/` is **THINK** — prompts, research, scratch
+   analysis, temporary notes, meeting notes, anything that isn't a durable
+   project artifact. It's its own local-only git repo with no remote;
+   nothing in it is ever part of a feature's commit. If you generate
+   something for your own reasoning rather than for shipping, it goes there,
+   not into REFERENCE or CHANGE.
 4. Your current branch (`git branch --show-current`) — it should match the
    `<NNN-slug>` of the worktree you're in. If it doesn't, stop and ask rather
    than guessing which feature you're meant to be working on.
 
 This replaces having a human paste an orientation prompt in by hand every
-session — read this file, confirm the above, then proceed.
+session — read this file, confirm the above (with real absolute paths, not
+the placeholder angle brackets), then proceed.
