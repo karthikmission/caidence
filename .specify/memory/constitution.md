@@ -1,50 +1,75 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+Version change: (none) → 1.0.0
+Modified principles: n/a (initial ratification)
+Added sections: Core Principles (4), Security Requirements, Development Workflow, Governance
+Removed sections: none
+Follow-up TODOs: none
+-->
+
+# Caidence Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. No Secrets In The Repo (NON-NEGOTIABLE)
+This repository is public. No infrastructure secrets, account IDs, ARNs, resource
+identifiers, access tokens, or private keys MUST ever be committed to it, in any
+branch, commit, issue, or PR description. Configuration that is genuinely secret
+is supplied at runtime via environment variables or a secrets manager, never via a
+file tracked by git. Rationale: a public repo has no blast-radius boundary —
+anything committed is permanently exposed, even if later deleted.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Provisioning Is Pluggable
+The privileged provisioning step — creating a real OS login, mutating a real
+security group, or issuing a real private key — MUST sit behind an interface with
+two implementations: a real one (used only by the production deployment) and a
+safe stub (used by every other deployment, including every participant's own).
+The stub MUST NOT have the ability to reach real infrastructure, by construction,
+not by configuration. Rationale: this is what makes it safe to let anyone fork and
+run this codebase without first auditing their intentions.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. The Starter Branch Cannot Touch Production
+A participant-facing starter branch of this codebase MUST NOT be able to mutate
+the production approval/provisioning path, whether by shared credentials, a
+shared database, or a shared deployment target. Each participant's deployment is
+independent of, and has no privileged access to, the production instance.
+Rationale: the production instance gates real access during a live event; a bug
+in a participant's in-progress Bolt must never be able to affect it.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Built By The Methodology It Teaches
+Caidence is built using the AI-DLC + Balrog pipeline it exists to demonstrate:
+spec → plan → tasks → implement → review → ship. Every feature traces back to a
+spec and plan artifact in `specs/`, not to undocumented code. Rationale: the
+artifacts this produces double as the workshop's own teaching material.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+## Security Requirements
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+All IAM roles and permissions follow least privilege — a role is scoped to
+exactly what its function needs, never broadened for convenience. Credentials
+used by the production deployment (Cognito app client secrets, database
+connection details, provisioning-service credentials) are supplied only through
+environment variables or a secrets manager at deploy time, and are never logged,
+echoed, or written to a file tracked by git. The stub provisioning
+implementation (Principle II) must be the default for any environment that is
+not explicitly the production deployment.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+## Development Workflow
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Work proceeds as: `/speckit-specify` to capture requirements, `/speckit-plan` to
+produce the design and contracts, `/speckit-tasks` to break the plan into ordered
+tasks, `/speckit-implement` to build against those tasks, then review and ship.
+A change that skips straight to implementation without a corresponding spec/plan
+artifact is out of process and must be brought back into `specs/` before it
+merges.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes ad hoc practice. Amendments require a PR that
+states the version bump and rationale, and are only adopted once merged.
+Versioning is semantic: MAJOR for incompatible governance changes, MINOR for a
+new or materially expanded principle, PATCH for wording/clarification only.
+Every spec and plan is checked against this constitution before implementation
+begins; a conflict is resolved by amending either the spec or this document, not
+by silently ignoring one.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-11-18 | **Last Amended**: 2026-11-18
