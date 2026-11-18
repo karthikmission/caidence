@@ -1,9 +1,13 @@
 <!--
 Sync Impact Report
-Version change: (none) → 1.0.0
-Modified principles: n/a (initial ratification)
-Added sections: Core Principles (4), Security Requirements, Development Workflow, Governance
+Version change: 1.0.0 → 1.0.1
+Modified principles: none
+Added sections: none
 Removed sections: none
+Changed: Governance — named the initial-ratification PR exception explicitly;
+every amendment after 1.0.0 requires a PR with no exception. This amendment
+itself goes through a PR (branch: chore/bootstrap-governance-exception),
+unlike 1.0.0 which could not.
 Follow-up TODOs: none
 -->
 
@@ -65,11 +69,14 @@ merges.
 ## Governance
 
 This constitution supersedes ad hoc practice. Amendments require a PR that
-states the version bump and rationale, and are only adopted once merged.
-Versioning is semantic: MAJOR for incompatible governance changes, MINOR for a
-new or materially expanded principle, PATCH for wording/clarification only.
-Every spec and plan is checked against this constitution before implementation
-begins; a conflict is resolved by amending either the spec or this document, not
-by silently ignoring one.
+states the version bump and rationale, and are only adopted once merged. The
+one exception is the initial ratification itself (version 1.0.0): a document
+that defines the PR requirement cannot be reviewed under a rule it has not yet
+adopted. Every version after 1.0.0 follows the PR requirement with no further
+exception. Versioning is semantic: MAJOR for incompatible governance changes,
+MINOR for a new or materially expanded principle, PATCH for wording/clarification
+only. Every spec and plan is checked against this constitution before
+implementation begins; a conflict is resolved by amending either the spec or
+this document, not by silently ignoring one.
 
-**Version**: 1.0.0 | **Ratified**: 2026-11-18 | **Last Amended**: 2026-11-18
+**Version**: 1.0.1 | **Ratified**: 2026-11-18 | **Last Amended**: 2026-11-18
