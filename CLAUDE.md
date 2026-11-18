@@ -6,11 +6,15 @@ Spec-kit's own scripts (`setup-plan.sh`, `setup-tasks.sh`, etc.) never create a
 branch or worktree — they just operate on whatever branch is currently checked
 out. That means `main` stays clean only if you make it stay clean yourself.
 
-**Before writing or editing any application source file** (this does not apply
-to `specs/**` markdown artifacts — `spec.md`, `plan.md`, `research.md`,
-`data-model.md`, `contracts/*`, `quickstart.md`, `tasks.md` are all fine to
-write directly on `main`; only `/speckit-implement` actually needs the
-worktree):
+**Before writing or editing any application source file, or reading it to
+decide what to write** (this does not apply to `specs/**` markdown artifacts
+— `spec.md`, `plan.md`, `research.md`, `data-model.md`, `contracts/*`,
+`quickstart.md`, `tasks.md` are all fine to write directly on `main`, *as
+long as nothing reads application source to produce them*. `/speckit-tasks`
+qualifies — it only reads the plan. `/speckit-converge` does not: it
+compares `tasks.md` against the actual implemented code, so even though its
+only write is to `tasks.md`, it needs the worktree too, same as
+`/speckit-implement`):
 
 1. Check whether a worktree for the current feature already exists:
    ```bash
