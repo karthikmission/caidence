@@ -1,0 +1,26 @@
+# Secrets — never commit
+.env
+.env.*
+*.pem
+*.key
+jira-token.txt
+secrets/
+.claude/settings.local.json
+
+# CDK
+cdk.out/
+*.d.ts
+!*.template.d.ts
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Build output
+dist/
+build/
