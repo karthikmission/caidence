@@ -43,6 +43,8 @@ A public web app lets a visitor register with an email and GitHub ID; an adminis
 
 No violations requiring justification — Complexity Tracking is not needed.
 
+*Re-checked after Phase 1 design (`data-model.md`, `contracts/`, `quickstart.md`): the `ProvisioningService` contract keeps the stub's inability to reach real infrastructure a structural property (no AWS client import), `data-model.md` holds no real identifiers, and `quickstart.md` validates entirely against the stub. All four rows above remain PASS.*
+
 ## Project Structure
 
 ### Documentation (this feature)
