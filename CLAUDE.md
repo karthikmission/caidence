@@ -7,7 +7,10 @@ branch or worktree — they just operate on whatever branch is currently checked
 out. That means `main` stays clean only if you make it stay clean yourself.
 
 **Before writing or editing any application source file** (this does not apply
-to `specs/**` markdown artifacts, which are fine to write directly):
+to `specs/**` markdown artifacts — `spec.md`, `plan.md`, `research.md`,
+`data-model.md`, `contracts/*`, `quickstart.md`, `tasks.md` are all fine to
+write directly on `main`; only `/speckit-implement` actually needs the
+worktree):
 
 1. Check whether a worktree for the current feature already exists:
    ```bash
@@ -15,9 +18,11 @@ to `specs/**` markdown artifacts, which are fine to write directly):
    ```
 2. If the current feature (per `.specify/feature.json` / the active
    `specs/<NNN-slug>/` directory) has no worktree yet, create one before doing
-   any implementation work:
+   any implementation work, under the shared `worktrees/` parent — never as a
+   sibling of `caidence/` directly:
    ```bash
-   git worktree add ../caidence-<NNN-slug> -b <NNN-slug>
+   mkdir -p ../worktrees
+   git worktree add ../worktrees/<NNN-slug> -b <NNN-slug>
    ```
 3. Do all subsequent file edits and `/speckit-implement` work inside that
    worktree path, not in the original `caidence/` checkout. `main` is for
@@ -33,9 +38,8 @@ Before touching any file, work out and state back:
 
 1. Your current directory — if it's `caidence/` on `main`, you are in the
    **REFERENCE** checkout: read-only, never modify it directly.
-2. If you're in a sibling directory named `caidence-<NNN-slug>`, that is the
-   **CHANGE** worktree for feature `<NNN-slug>` — this is where implementation
-   work belongs.
+2. If you're in `../worktrees/<NNN-slug>`, that is the **CHANGE** worktree
+   for feature `<NNN-slug>` — this is where implementation work belongs.
 3. `../driver/` (sibling of `caidence/`, one level up from REFERENCE) is
    **THINK** — prompts, research, scratch analysis, temporary notes, meeting
    notes, anything that isn't a durable project artifact. It's its own
